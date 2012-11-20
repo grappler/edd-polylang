@@ -1,5 +1,5 @@
 === EDD Multilingual ===
-Contributors: DavidGW
+Contributors: dgwatkins
 Donate link: http://wpml.org/documentation/related-projects/easy-digital-downloads-multilingual/
 Tags: e-commerce, multilingual, WPML, download
 License: GPLv2
