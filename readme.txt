@@ -4,8 +4,9 @@ Donate link: http://wpml.org/documentation/related-projects/easy-digital-downloa
 Tags: e-commerce, multilingual, WPML, download
 License: GPLv2
 Requires at least: 3.1
-Tested up to: 3.4.2
-Stable tag: 1.0.0
+Tested up to: 3.5
+Stable tag: 1.1.1
+Version: 1.1.1
 
 Run multilingual e-commerce sites with Easy Digital Downloads and WPML
 
@@ -30,6 +31,9 @@ It will let you run a complete shop and easily translate everything.
 This is a glue plugin between EDD and WPML. You need to have both in order for this plugin to do anything.
 
 == Changelog ==
+
+= 1.1.1 =
+* Fix for resending email receipt in the correct language
 
 = 1.0.0 =
 * First release
