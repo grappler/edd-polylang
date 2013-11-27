@@ -29,6 +29,9 @@ class EDD_multilingual{
         // Translate post_id for pages in options
         $edd_options['purchase_page'] = icl_object_id($edd_options['purchase_page'], 'page', true);
         $edd_options['success_page'] = icl_object_id($edd_options['success_page'], 'page', true);
+
+		// Synchronize sales and earnings between translations
+		add_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
     }
 
     // Error message if there are missing plugins
@@ -45,5 +48,22 @@ class EDD_multilingual{
         global $sitepress;
         update_post_meta($payment, 'wpml_language', $sitepress->get_current_language());
     }
+
+	function synchronize_download_totals($null, $object_id, $meta_key, $meta_value, $prev_value ) {
+		global $sitepress;
+
+		if (in_array($meta_key, array('_edd_download_sales', '_edd_download_earnings'))) {
+			remove_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
+			$languages = icl_get_languages('skip_missing=0');
+			foreach ($languages as $lang) {
+				if ($lang['language_code'] != $sitepress->get_current_language()) {
+					$post_id = icl_object_id($object_id, 'download', false, $lang['language_code']);
+					update_post_meta($post_id, $meta_key, $meta_value);
+				}
+			}
+			add_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
+		}
+		return null;
+	}
 
 }
