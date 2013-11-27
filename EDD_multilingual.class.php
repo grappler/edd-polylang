@@ -32,6 +32,8 @@ class EDD_multilingual{
 
 		// Synchronize sales and earnings between translations
 		add_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
+		add_action('edd_tools_after', array($this, 'recalculate_show_link'));
+		add_action('wp_ajax_edd_recalculate', array($this, 'recalculate_download_totals'));
     }
 
     // Error message if there are missing plugins
@@ -64,6 +66,57 @@ class EDD_multilingual{
 			add_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
 		}
 		return null;
+	}
+
+	function recalculate_show_link() {
+?>
+<div id="edd_ml_recalculate">
+	<a class="button" href="#recalculate">Recalculate totals</a>
+</div>
+<script type="text/javascript">
+jQuery(function($){
+	$('#edd_ml_recalculate a').click(function() {
+		$('#edd_ml_recalculate a').attr('disabled', 'disabled');
+		$.post(ajaxurl, {action:"edd_recalculate"},function(){
+			$('#edd_ml_recalculate a').removeAttr('disabled');
+			$('#edd_ml_recalculate').append('<span>done!</span>');
+			setTimeout(function() {
+				$('#edd_ml_recalculate span').fadeOut('slow');
+			}, 1000);
+		});
+		return false;
+	});
+});
+</script>
+<?php
+	}
+
+	function recalculate_download_totals() {
+		global $wpdb, $sitepress;
+
+		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '0' WHERE meta_key IN ('_edd_download_earnings', '_edd_download_sales')");
+		$logs = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'edd_log'");
+		foreach ($logs as $log) {
+			$payment_id = get_post_meta( $log->ID, '_edd_log_payment_id', true );
+			$lang = get_post_meta( $payment_id, 'wpml_language', true);
+			if (empty($lang)) {
+				$lang = $sitepress->get_default_language();
+			}
+			if (get_post($payment_id)) {
+				$cart_items = edd_get_payment_meta_cart_details( $payment_id );
+				$amount     = 0;
+				if ( is_array( $cart_items ) ) {
+					foreach ( $cart_items as $item ) {
+						$sitepress->switch_lang($lang);
+						edd_increase_earnings($item['id'], $item['price']);
+						edd_increase_purchase_count($item['id']);
+						$sitepress->switch_lang();
+					}
+				}
+			}
+		}
+
+		die('1');
 	}
 
 }
