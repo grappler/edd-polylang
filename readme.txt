@@ -6,7 +6,6 @@ License: GPLv2
 Requires at least: 3.1
 Tested up to: 3.5
 Stable tag: 1.1.1
-Version: 1.1.1
 
 Run multilingual e-commerce sites with Easy Digital Downloads and WPML
 
@@ -31,6 +30,11 @@ It will let you run a complete shop and easily translate everything.
 This is a glue plugin between EDD and WPML. You need to have both in order for this plugin to do anything.
 
 == Changelog ==
+
+= 1.2 =
+* Synchronize sales and earnings for each download across translations
+* Add a button to recalculate sales and earnings for each download (in Tools)
+* Adjust WPML configuration file to the latest updates
 
 = 1.1.1 =
 * Fix for resending email receipt in the correct language
