@@ -27,9 +27,19 @@ class EDD_multilingual{
         $edd_options = edd_get_settings();
 
         // Translate post_id for pages in options
-        $edd_options['purchase_page'] = icl_object_id($edd_options['purchase_page'], 'page', true);
-        $edd_options['success_page'] = icl_object_id($edd_options['success_page'], 'page', true);
-        $edd_options['failure_page'] = icl_object_id($edd_options['failure_page'], 'page', true);
+        $edd_options['purchase_page'] 	= icl_object_id($edd_options['purchase_page'], 'page', true);
+        $edd_options['success_page'] 	= icl_object_id($edd_options['success_page'], 'page', true);
+        $edd_options['failure_page'] 	= icl_object_id($edd_options['failure_page'], 'page', true);
+
+        // Crowdfunding plugin
+        if (class_exists('ATCF_CrowdFunding')) {
+	        $edd_options['faq_page'] 			= icl_object_id($edd_options['faq_page'], 'page', true);
+	        $edd_options['submit_page'] 		= icl_object_id($edd_options['submit_page'], 'page', true);
+	        $edd_options['submit_success_page'] = icl_object_id($edd_options['submit_success_page'], 'page', true);
+	        $edd_options['profile_page'] 		= icl_object_id($edd_options['profile_page'], 'page', true);
+	        $edd_options['login_page'] 			= icl_object_id($edd_options['login_page'], 'page', true);
+	        $edd_options['register_page'] 		= icl_object_id($edd_options['register_page'], 'page', true);
+        }
 
 		// Synchronize sales and earnings between translations
 		add_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
