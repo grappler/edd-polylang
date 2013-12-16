@@ -5,7 +5,7 @@ Tags: e-commerce, multilingual, WPML, download
 License: GPLv2
 Requires at least: 3.1
 Tested up to: 3.5
-Stable tag: 1.1.1
+Stable tag: 1.2
 
 Run multilingual e-commerce sites with Easy Digital Downloads and WPML
 
