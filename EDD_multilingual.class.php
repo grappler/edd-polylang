@@ -45,6 +45,9 @@ class EDD_multilingual{
 		add_filter('update_post_metadata', array($this, 'synchronize_download_totals'), 10, 5);
 		add_action('edd_tools_after', array($this, 'recalculate_show_link'));
 		add_action('wp_ajax_edd_recalculate', array($this, 'recalculate_download_totals'));
+
+		// Add back the flags to downloads manager
+		add_filter('edd_download_columns', array($sitepress, 'add_posts_management_column'));
     }
 
     // Error message if there are missing plugins
