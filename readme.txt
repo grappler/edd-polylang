@@ -22,6 +22,7 @@ It will let you run a complete shop and easily translate everything.
 1. Upload 'edd-multilingual' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
+Before creating products, you should configure how you want to treat 'edd_download_files' (copy or translate) in WPML -> Translation Managemenet -> Multilingual Content Setup. This is because some stores have the same files for all languages while others dont, so you need to configure this manually.
 
 == Frequently Asked Questions ==
 
@@ -30,6 +31,10 @@ It will let you run a complete shop and easily translate everything.
 This is a glue plugin between EDD and WPML. You need to have both in order for this plugin to do anything.
 
 == Changelog ==
+
+= 1.2.1 =
+* Bring back language icons to the downloads manager screen
+* Dont copy the custom field edd_download_files
 
 = 1.2 =
 * Synchronize sales and earnings for each download across translations
