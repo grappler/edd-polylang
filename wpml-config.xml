@@ -4,12 +4,16 @@
         <custom-type translate="0">edd_payment</custom-type>
     </custom-types>
     <custom-fields>
-        <custom-field action="ignore">_edd_download_earnings</custom-field>
-        <custom-field action="ignore">_edd_download_sales</custom-field>
+        <custom-field action="copy">_edd_download_earnings</custom-field>
+        <custom-field action="copy">_edd_download_sales</custom-field>
         <custom-field action="copy">edd_price</custom-field>
         <custom-field action="copy">edd_variable_prices</custom-field>
         <custom-field action="copy">_edd_purchase_style</custom-field>
         <custom-field action="copy">_edd_purchase_color</custom-field>
+        <custom-field action="copy">_edd_download_limit</custom-field>
+        <custom-field action="copy">_edd_hide_purchase_link</custom-field>
+        <custom-field action="copy">edd_product_type</custom-field>
+        <custom-field action="copy">edd_download_files</custom-field>
         <custom-field action="translate">_edd_purchase_text</custom-field>
         <custom-field action="translate">edd_product_notes</custom-field>
     </custom-fields>
@@ -19,6 +23,10 @@
     </taxonomies>
     <admin-texts>
         <key name="edd_settings">
+            <key name="currency" />
+            <key name="currency_position" />
+            <key name="thousands_separator" />
+            <key name="decimal_separator" />
             <key name="from_name" />
             <key name="from_email" />
             <key name="purchase_subject" />
@@ -32,5 +40,3 @@
         </key>
     </admin-texts>
 </wpml-config>
-
-
