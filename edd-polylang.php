@@ -9,13 +9,5 @@ Author URI: http://ulrich.pogson.ch
 License: GPL2
 */
 
-if ( defined( 'EDD_MULTILINGUAL_VERSION' ) ){
-	return;
-}
-
-define( 'EDD_MULTILINGUAL_VERSION', '1.2.1' );
-define( 'EDD_MULTILINGUAL_PATH', dirname( __FILE__ ) );
-
-require EDD_MULTILINGUAL_PATH . '/class-edd-polylang.php';
-
+require dirname( __FILE__ ) . '/class-edd-polylang.php';
 $edd_polylang = new EDD_Polylang();

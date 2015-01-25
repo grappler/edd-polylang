@@ -7,9 +7,9 @@ class EDD_Polylang{
 
 	public function init() {
 
-		// Check if EDD and Polylang are installed
-		if ( ! defined( 'POLYLANG_VERSION' ) || ! defined( 'EDD_VERSION' ) && version_compare( EDD_VERSION, '2.3.0', '>=' ) ) {
-			add_action( 'admin_notices', array( &$this, 'error_no_plugins' ) );
+		// Check if EDD v2.2.3 and Polylang are installed
+		if ( ! defined( 'POLYLANG_VERSION' ) || ! defined( 'EDD_VERSION' ) || version_compare( EDD_VERSION, '2.2.3', '<' ) ) {
+			add_action( 'admin_notices', array( $this, 'error_no_plugins' ) );
 			return;
 		}
 
@@ -29,8 +29,8 @@ class EDD_Polylang{
 		// Display language in order
 		add_action( 'edd_payment_view_details', array( $this, 'display_payment_language' ) );
 
-		// Make a notification fields multiline
-		//add_filter( 'plugins_loaded', array( $this, 'get_edd_strings' ), 20 );
+		// Define EDD settings to translate
+		add_filter( 'plugins_loaded', array( $this, 'define_edd_strings' ), 20 );
 
 	}
 
@@ -42,7 +42,7 @@ class EDD_Polylang{
 				<?php printf(
 					__('EDD Polylang only works when %s and %s are installed and active.', 'edd_polylang'),
 					'Polylang',
-					'Easy Digital Downloads'
+					'Easy Digital Downloads v2.2.3'
 				); ?>
 			</strong></p>
 		</div>
@@ -68,7 +68,7 @@ class EDD_Polylang{
 <?php
 	}
 
-	public function get_edd_strings( $strings ) {
+	public function define_edd_strings() {
 		$settings = array(
 			'currency'                  => __( 'Currency', 'edd-polylang' ),
 			'currency_position'         => __( 'Currency Position', 'edd-polylang' ),
@@ -90,18 +90,14 @@ class EDD_Polylang{
 			'sale_notification',
 			'agree_text'
 		);
-		foreach( $strings as $key => $string ){
-			if( in_array( $strings[$key]['name'], $multiline_settings ) ) {
-				$strings[$key]['multiline'] = true;
+		foreach( $settings as $setting => $string ){
+			$multiline = false;
+			if( in_array( $setting, $multiline_settings ) ) {
+				$multiline = true;
 			}
-			if( in_array( $strings[$key]['name'], $settings ) ) {
-				$strings[$key]['name'] = $settings[ $strings[$key]['name'] ];
-			}
-			if( 'edd-polylang' == $strings[$key]['context'] ) {
-				$strings[$key]['context'] = 'Easy Digital Downloads';
-			}
+			$setting = edd_get_option( $setting );
+			pll_register_string( $string, $setting, 'Easy Digital Downloads', $multiline );
 		}
-		return $strings;
 	}
 
 }
