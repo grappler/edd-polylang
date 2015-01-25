@@ -1,18 +1,19 @@
 <?php
 class EDD_Polylang{
 
-	function __construct(){
+	public function __construct(){
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
 	}
 
-	function init() {
+	public function init() {
 
-		// Sanity check
+		// Check if EDD and Polylang are installed
 		if ( ! defined( 'POLYLANG_VERSION' ) || ! defined( 'EDD_VERSION' ) && version_compare( EDD_VERSION, '2.3.0', '>=' ) ) {
 			add_action( 'admin_notices', array( &$this, 'error_no_plugins' ) );
 			return;
 		}
 
+		// Return correct EDD page id for current language
 		$edd_options['purchase_page']         = 'purchase_page';
 		$edd_options['success_page']          = 'success_page';
 		$edd_options['failure_page']          = 'failure_page';
@@ -22,17 +23,19 @@ class EDD_Polylang{
 			add_filter( 'edd_get_option_' . $key, array( $this, 'option_per_lang' ), 10, 2 );
 		}
 
-		// Save order language and send email notifications in the correct language
+		// Save order language in the correct language
 		add_action( 'edd_insert_payment', array( &$this, 'save_payment_language' ), 10, 2);
 
+		// Display language in order
 		add_action( 'edd_payment_view_details', array( $this, 'display_payment_language' ) );
 
-		//pll_register_string( 'edd_settings', 'purchase_receipt', 'edd', 'true');
+		// Make a notification fields multiline
+		//add_filter( 'plugins_loaded', array( $this, 'get_edd_strings' ), 20 );
 
 	}
 
 	// Error message if there are missing plugins
-	function error_no_plugins() {
+	public function error_no_plugins() {
 		?>
 		<div class="error">
 			<p><strong>
@@ -51,11 +54,11 @@ class EDD_Polylang{
 	}
 
 	// Save the language the order was made in
-	function save_payment_language( $payment, $payment_data ) {
+	public function save_payment_language( $payment, $payment_data ) {
 		pll_set_post_language( $payment, pll_current_language() );
 	}
 
-	function display_payment_language( $payment_id ){ ?>
+	public function display_payment_language( $payment_id ){ ?>
 		<div class="column-container">
 			<div class="column">
 				<strong><?php _e( 'Language:', 'edd-polylang' ); ?></strong>&nbsp;
@@ -63,6 +66,42 @@ class EDD_Polylang{
 			</div>
 		</div>
 <?php
+	}
+
+	public function get_edd_strings( $strings ) {
+		$settings = array(
+			'currency'                  => __( 'Currency', 'edd-polylang' ),
+			'currency_position'         => __( 'Currency Position', 'edd-polylang' ),
+			'thousands_separator'       => __( 'Thousands Separator', 'edd-polylang' ),
+			'decimal_separator'         => __( 'Decimal Separator', 'edd-polylang' ),
+			'from_name'                 => __( 'From Name', 'edd-polylang' ),
+			'from_email'                => __( 'From Email', 'edd-polylang' ),
+			'purchase_subject'          => __( 'Purchase Email Subject', 'edd-polylang' ),
+			'purchase_receipt'          => __( 'Purchase Receipt', 'edd-polylang' ),
+			'sale_notification_subject' => __( 'Sale Notification Subject', 'edd-polylang' ),
+			'sale_notification'         => __( 'Sale Notification', 'edd-polylang' ),
+			'agree_label'               => __( 'Agree to Terms Label', 'edd-polylang' ),
+			'agree_text'                => __( 'Agreement Text', 'edd-polylang' ),
+			'checkout_label'            => __( 'Complete Purchase Text', 'edd-polylang' ),
+			'add_to_cart_text'          => __( 'Add to Cart Text', 'edd-polylang' ),
+		);
+		$multiline_settings = array(
+			'purchase_receipt',
+			'sale_notification',
+			'agree_text'
+		);
+		foreach( $strings as $key => $string ){
+			if( in_array( $strings[$key]['name'], $multiline_settings ) ) {
+				$strings[$key]['multiline'] = true;
+			}
+			if( in_array( $strings[$key]['name'], $settings ) ) {
+				$strings[$key]['name'] = $settings[ $strings[$key]['name'] ];
+			}
+			if( 'edd-polylang' == $strings[$key]['context'] ) {
+				$strings[$key]['context'] = 'Easy Digital Downloads';
+			}
+		}
+		return $strings;
 	}
 
 }
