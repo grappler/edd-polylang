@@ -8,7 +8,7 @@ class EDD_Polylang{
 	public function init() {
 
 		// Check if EDD v2.2.3 and Polylang are installed
-		if ( ! defined( 'POLYLANG_VERSION' ) || ! defined( 'EDD_VERSION' ) || version_compare( EDD_VERSION, '2.2.3', '<' ) ) {
+		if ( ! defined( 'POLYLANG_VERSION' ) || ! defined( 'EDD_VERSION' ) || version_compare( EDD_VERSION, '2.3', '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'error_no_plugins' ) );
 			return;
 		}
@@ -42,7 +42,7 @@ class EDD_Polylang{
 				<?php printf(
 					__('EDD Polylang only works when %s and %s are installed and active.', 'edd_polylang'),
 					'Polylang',
-					'Easy Digital Downloads v2.2.3'
+					'Easy Digital Downloads v2.3'
 				); ?>
 			</strong></p>
 		</div>
