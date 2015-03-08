@@ -1,0 +1,26 @@
+{
+	"name"        : "grappler/edd-polylang",
+	"description" : "A plugin to enable seemless integration between Easy-Digital-Downloads and Polylang",
+	"keywords"    : ["wordpress", "polylang", "easy-digital-downloads"],
+	"type"        : "wordpress-plugin",
+	"homepage"    : "https://github.com/grappler/edd-polylang",
+	"license"     : "GPL2",
+	"authors"     : [
+		{
+			"name"    : "Ulrich Pogson",
+			"email"   : "grapplerulrich@gmail.com",
+			"homepage": "http://ulrich.pogson.ch/"
+		}
+	],
+	"support"     : {
+		"issues": "https://github.com/grappler/edd-polylang/issues"
+	},
+	"require" : {
+		"php"                                      : ">=5.3",
+		"wpackagist-plugin/polylang"               : "*",
+		"wpackagist-plugin/easy-digital-downloads" : ">=2.3"
+	},
+	"autoload"    : {
+		"classmap": ["php/"]
+	}
+}

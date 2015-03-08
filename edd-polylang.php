@@ -1,7 +1,7 @@
 <?php 
 /*
 Plugin Name: Easy Digital Downloads Polylang
-Plugin URI: 
+Plugin URI: https://github.com/grappler/edd-polylang
 Description: A plugin to enable seemless integration between Easy-Digital-Downloads and Polylang
 Version: 0.0.1
 Author: Ulrich Pogson
