@@ -19,8 +19,5 @@
 		"php"                                      : ">=5.3",
 		"wpackagist-plugin/polylang"               : "*",
 		"wpackagist-plugin/easy-digital-downloads" : ">=2.3"
-	},
-	"autoload"    : {
-		"classmap": ["php/"]
 	}
 }
