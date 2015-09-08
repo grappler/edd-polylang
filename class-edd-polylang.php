@@ -50,7 +50,8 @@ class EDD_Polylang{
 	}
 
 	public function option_per_lang( $value ) {
-		return pll_get_post( $value );
+		$page_id = (pll_get_post( $value ) > 0) ? pll_get_post( $value ) : $value;
+		return $page_id;
 	}
 
 	// Save the language the order was made in
