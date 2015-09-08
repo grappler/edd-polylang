@@ -31,7 +31,12 @@ class EDD_Polylang{
 
 		// Define EDD settings to translate
 		add_filter( 'plugins_loaded', array( $this, 'define_edd_strings' ), 20 );
-
+		
+		// Translate EDD Strings
+		foreach( $this->edd_strings() as $key => $string) {
+			add_filter( 'edd_get_option_' . $key, array( $this, 'translate_string' ), 10, 2 );
+		}
+		
 	}
 
 	// Error message if there are missing plugins
@@ -50,7 +55,12 @@ class EDD_Polylang{
 	}
 
 	public function option_per_lang( $value ) {
-		return pll_get_post( $value );
+		$page_id = (pll_get_post( $value ) > 0) ? pll_get_post( $value ) : $value;
+		return $page_id;
+	}
+	
+	public function translate_string( $value ) {
+		return pll__( $value );
 	}
 
 	// Save the language the order was made in
@@ -67,8 +77,9 @@ class EDD_Polylang{
 		</div>
 <?php
 	}
-
-	public function define_edd_strings() {
+	
+	public function edd_strings() {
+		
 		$settings = array(
 			'currency'                  => __( 'Currency', 'edd-polylang' ),
 			'currency_position'         => __( 'Currency Position', 'edd-polylang' ),
@@ -85,19 +96,29 @@ class EDD_Polylang{
 			'checkout_label'            => __( 'Complete Purchase Text', 'edd-polylang' ),
 			'add_to_cart_text'          => __( 'Add to Cart Text', 'edd-polylang' ),
 		);
+		
+		return $settings;
+	}
+	
+	public function define_edd_strings() {
+		
+		$settings = $this->edd_strings();
+		
 		$multiline_settings = array(
 			'purchase_receipt',
 			'sale_notification',
 			'agree_text'
 		);
-		foreach( $settings as $setting => $string ){
+		
+		foreach( $settings as $key => $string ){
 			$multiline = false;
-			if( in_array( $setting, $multiline_settings ) ) {
+			if( in_array( $key, $multiline_settings ) ) {
 				$multiline = true;
 			}
-			$setting = edd_get_option( $setting );
+			$setting = edd_get_option( $key );
 			pll_register_string( $string, $setting, 'Easy Digital Downloads', $multiline );
 		}
+		
 	}
 
 }
