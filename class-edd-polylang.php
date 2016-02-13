@@ -31,12 +31,12 @@ class EDD_Polylang{
 
 		// Define EDD settings to translate
 		add_filter( 'plugins_loaded', array( $this, 'define_edd_strings' ), 20 );
-		
+
 		// Translate EDD Strings
 		foreach( $this->edd_strings() as $key => $string) {
 			add_filter( 'edd_get_option_' . $key, array( $this, 'translate_string' ), 10, 2 );
 		}
-		
+
 	}
 
 	// Error message if there are missing plugins
@@ -58,7 +58,7 @@ class EDD_Polylang{
 		$page_id = (pll_get_post( $value ) > 0) ? pll_get_post( $value ) : $value;
 		return $page_id;
 	}
-	
+
 	public function translate_string( $value ) {
 		return pll__( $value );
 	}
@@ -77,9 +77,9 @@ class EDD_Polylang{
 		</div>
 <?php
 	}
-	
+
 	public function edd_strings() {
-		
+
 		$settings = array(
 			'currency'                  => __( 'Currency', 'edd-polylang' ),
 			'currency_position'         => __( 'Currency Position', 'edd-polylang' ),
@@ -88,6 +88,7 @@ class EDD_Polylang{
 			'from_name'                 => __( 'From Name', 'edd-polylang' ),
 			'from_email'                => __( 'From Email', 'edd-polylang' ),
 			'purchase_subject'          => __( 'Purchase Email Subject', 'edd-polylang' ),
+			'purchase_heading'          => __( 'Purchase Email Heading', 'edd-polylang' ),
 			'purchase_receipt'          => __( 'Purchase Receipt', 'edd-polylang' ),
 			'sale_notification_subject' => __( 'Sale Notification Subject', 'edd-polylang' ),
 			'sale_notification'         => __( 'Sale Notification', 'edd-polylang' ),
@@ -96,20 +97,20 @@ class EDD_Polylang{
 			'checkout_label'            => __( 'Complete Purchase Text', 'edd-polylang' ),
 			'add_to_cart_text'          => __( 'Add to Cart Text', 'edd-polylang' ),
 		);
-		
+
 		return $settings;
 	}
-	
+
 	public function define_edd_strings() {
-		
+
 		$settings = $this->edd_strings();
-		
+
 		$multiline_settings = array(
 			'purchase_receipt',
 			'sale_notification',
 			'agree_text'
 		);
-		
+
 		foreach( $settings as $key => $string ){
 			$multiline = false;
 			if( in_array( $key, $multiline_settings ) ) {
@@ -118,7 +119,7 @@ class EDD_Polylang{
 			$setting = edd_get_option( $key );
 			pll_register_string( $string, $setting, 'Easy Digital Downloads', $multiline );
 		}
-		
+
 	}
 
 }
